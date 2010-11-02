@@ -10,8 +10,8 @@ task 'gem:release' => 'test:run'
 
 Bones {
   name  'credit_card_validator'
-  authors  'FIXME (who is writing this software)'
-  email    'FIXME (your e-mail)'
-  url      'FIXME (project homepage)'
+  authors  'Ninju'
+  email    'el.zingo@gmail.com'
+  url      'http://www.github.com/Ninju/credit_card_validator'
 }
 
