@@ -1,5 +1,5 @@
 credit_card_validator
-    Alex Watt
+    Ninju
     http://www.github.com/Ninju/credit_card_validator
 
 == DESCRIPTION:
