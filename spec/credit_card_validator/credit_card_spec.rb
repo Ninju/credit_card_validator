@@ -10,6 +10,24 @@ describe CreditCard do
     @card_number ||= 418997223921
   end
 
+  it "should respond to CreditCard class>>card_types" do
+    CreditCard.should respond_to( :card_types )
+  end
+
+  it "should return a hash" do
+    CreditCard.card_types.should be_kind_of( Hash )
+  end
+
+  it "should be valid if the luhn sum is divisible exactly by 10" do
+    card = CreditCard.create( 4408041234567893 )
+    card.should be_valid
+  end
+
+  it "should not be valid if the luhn sum is not divisible exactly by 10" do
+    card = CreditCard.new( 4417123456789112 )
+    card.should_not be_valid
+  end
+
   describe "CreditCard class>>create" do
     before do
       CreditCard.stub( :type ).and_return( "Non Card" )

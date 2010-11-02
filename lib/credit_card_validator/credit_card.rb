@@ -7,6 +7,10 @@ module CreditCardValidator
       @card_number = card_number
     end
 
+    def valid?
+
+    end
+
     def self.create( card_number )
       CreditCard.new( type( card_number ), card_number )
     end
@@ -45,6 +49,10 @@ module CreditCardValidator
           rule.call( card_number )
         end
       end
+    end
+
+    def self.card_types
+      @card_types ||= {}
     end
   end
 end
