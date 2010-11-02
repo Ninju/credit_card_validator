@@ -22,7 +22,29 @@ module CreditCardValidator
     end
 
     def self.rule_for_options( options = {} )
-      lambda { true }
+      lengths = options.delete( :length )
+      format = options.delete( :format )
+
+      rules = [ lambda { true } ]
+
+      if lengths
+        rules << lambda do | card_number |
+          lengths.include?( card_number.digits.size )
+        end
+      end
+
+      if format
+        rules << lambda do | card_number |
+          card_number.to_s =~ format
+        end
+      end
+
+
+      lambda do | card_number |
+        rules.all? do | rule |
+          rule.call( card_number )
+        end
+      end
     end
   end
 end

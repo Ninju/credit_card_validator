@@ -108,5 +108,87 @@ describe CreditCard do
         rule.call.should be_true
       end
     end
+
+    describe "when the :length option is passed" do
+      before do
+        card_number.stub( :digits ).and_return( digits )
+        digits.stub( :size ).and_return( num_digits )
+      end
+
+      def card_number
+        @card_number ||= Object.new
+      end
+
+      def digits
+        @digits ||= Object.new
+      end
+
+      def num_digits
+        @num_digits ||= Object.new
+      end
+
+      it "should compare the number of digits to the length" do
+        num_digits.should_receive( :== ).with( 14 ).and_return( false )
+        num_digits.should_receive( :== ).with( 10 ).and_return( false )
+
+        rule = CreditCard.rule_for_options( :length => [ 14, 10 ] )
+        rule.call( card_number )
+      end
+
+      it "should be true if the number of digits is equal to one of the lengths passed" do
+        num_digits.should_receive( :== ).with( 14 ).and_return( true )
+        num_digits.should_receive( :== ).with( 10 ).and_return( false )
+
+        rule = CreditCard.rule_for_options( :length => [ 10, 14 ] )
+        rule.call( card_number ).should be_true
+      end
+
+      it "should be false if the number of digits is not equal to any of the lengths passed" do
+        num_digits.should_receive( :== ).with( 14 ).and_return( false )
+        num_digits.should_receive( :== ).with( 10 ).and_return( false )
+
+        rule = CreditCard.rule_for_options( :length => [ 10, 14 ] )
+        rule.call( card_number ).should be_false
+      end
+    end
+
+    describe "when the :format option is passed" do
+      before do
+        card_number.stub( :to_s ).and_return( to_s )
+      end
+
+      def format
+        //
+      end
+
+      def card_number
+        @card_number ||= Object.new
+      end
+
+      def to_s
+        @to_s ||= Object.new
+      end
+
+      it "should compare the card number to the format" do
+        to_s.should_receive( :=~ ).with( format )
+
+        rule = CreditCard.rule_for_options( :format => format )
+        rule.call( card_number )
+      end
+
+      it "should return false if the card number does not match the format" do
+        to_s.stub( :=~ ).with( format ).and_return( false )
+
+        rule = CreditCard.rule_for_options( :format => format )
+        rule.call( card_number ).should be_false
+      end
+
+      it "should return true if the card number matches the format" do
+        to_s.stub( :=~ ).with( format ).and_return( true )
+
+        rule = CreditCard.rule_for_options( :format => format )
+        rule.call( card_number ).should be_true
+      end
+    end
   end
 end
