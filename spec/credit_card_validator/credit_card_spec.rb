@@ -18,6 +18,11 @@ describe CreditCard do
     CreditCard.card_types.should be_kind_of( Hash )
   end
 
+  it "should be valid if the type of the card is uknown" do
+    card = CreditCard.new( "Uknown", 4408041234567893 )
+    card.should_not be_valid
+  end
+
   it "should be valid if the luhn sum is divisible exactly by 10" do
     card = CreditCard.create( 4408041234567893 )
     card.should be_valid

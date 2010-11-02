@@ -8,6 +8,8 @@ module CreditCardValidator
     end
 
     def valid?
+      return false if type == "Uknown"
+
       digits = card_number.digits
       evens = digits.even_indexes
       odds = digits.odd_indexes.map { | n | n * 2 }
