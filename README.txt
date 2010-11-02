@@ -1,26 +1,33 @@
 credit_card_validator
-    by FIXME (your name)
-    FIXME (url)
+    Alex Watt
+    http://www.github.com/Ninju/credit_card_validator
 
 == DESCRIPTION:
 
-FIXME (describe your package)
-
-== FEATURES/PROBLEMS:
-
-* FIXME (list of features or problems)
+Validates credit card numbers using the Luhn algorithm
 
 == SYNOPSIS:
 
-  FIXME (code sample of usage)
+  class CreditCard
+    card "Visa", :length => [13, 16], :format => /^44/
+  end
+
+  card = CreditCard.create( 4413431987263 )
+  card.type #=> "Visa"
+  card.valid? #=> true/false
+
+  card = CreditCard.create( 1234523423 )
+  card.type #=> "Uknown"
+  card.valid? #=> false
 
 == REQUIREMENTS:
 
-* FIXME (list of requirements)
+* Validate cards according to luhn algorithm
+* Differentiate type of card (Visa, AMEX, MasterCard etc)
 
 == INSTALL:
 
-* FIXME (sudo gem install, anything else)
+sudo gem install credit_card_validator
 
 == LICENSE:
 
