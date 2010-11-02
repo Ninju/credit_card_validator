@@ -17,6 +17,14 @@ module CreditCardValidator
       sum % 10 == 0
     end
 
+    def self.rules
+      @rules ||= {}
+    end
+
+    def self.card_option( option_key, &block )
+      rules[ option_key ] = block
+    end
+
     def self.create( card_number )
       CreditCard.new( type( card_number ), card_number )
     end
@@ -32,27 +40,11 @@ module CreditCardValidator
     end
 
     def self.rule_for_options( options = {} )
-      lengths = options.delete( :length )
-      format = options.delete( :format )
-
-      rules = [ lambda { true } ]
-
-      if lengths
-        rules << lambda do | card_number |
-          lengths.to_a.include?( card_number.digits.size )
-        end
-      end
-
-      if format
-        rules << lambda do | card_number |
-          card_number.to_s =~ format
-        end
-      end
-
+      rules_to_use = rules.select { | key, rule | options.has_key?( key ) }
 
       lambda do | card_number |
-        rules.all? do | rule |
-          rule.call( card_number )
+        rules_to_use.all? do | key, rule |
+          rule.call( options[ key ], card_number )
         end
       end
     end
@@ -60,6 +52,9 @@ module CreditCardValidator
     def self.card_types
       @card_types ||= {}
     end
+
+    card_option( :format ) { | format, card_number | card_number.to_s =~ format }
+    card_option( :length ) { | lengths, card_number | lengths.to_a.include?( card_number.digits.size ) }
 
     card "Visa", :format => /^4/, :length => [ 13, 16 ]
     card "MasterCard", :format => /^5(1|5)/, :length => 16
