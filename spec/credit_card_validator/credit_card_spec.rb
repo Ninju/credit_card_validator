@@ -10,21 +10,21 @@ describe CreditCard do
     @card_number ||= 418997223921
   end
 
-  it "should be uknown if the type is uknown" do
+  it "should be unknown if the type is unknown" do
     card = CreditCard.create( 34123124 )
-    card.stub( :type ).and_return( :uknown )
-    card.should be_uknown
+    card.stub( :type ).and_return( :unknown )
+    card.should be_unknown
   end
 
-  it "should not be uknown if the type of the card is known" do
+  it "should not be unknown if the type of the card is known" do
     card = CreditCard.create( 34123124 )
     card.stub( :type ).and_return( :some_known_type )
-    card.should_not be_uknown
+    card.should_not be_unknown
   end
 
-  it "should not be valid if the type of the card is uknown" do
+  it "should not be valid if the type of the card is unknown" do
     card = CreditCard.create( 4408041234567893 )
-    card.stub( :type ).and_return( :uknown )
+    card.stub( :type ).and_return( :unknown )
     card.should_not be_valid
   end
 
@@ -81,7 +81,7 @@ describe CreditCard do
         rule.stub( :call ).with( card_number ).and_return( false )
       end
 
-      CreditCard.type( card_number ).should == :uknown
+      CreditCard.type( card_number ).should == :unknown
     end
 
     it "should be the card type of the matching rule" do

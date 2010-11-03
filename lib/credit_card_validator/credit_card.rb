@@ -7,12 +7,12 @@ module CreditCardValidator
       @card_number = card_number
     end
 
-    def uknown?
-      type == :uknown
+    def unknown?
+      type == :unknown
     end
 
     def valid?
-      return false if uknown?
+      return false if unknown?
 
       digits = card_number.digits
       evens = digits.even_indexes
@@ -38,7 +38,7 @@ module CreditCardValidator
     def self.type( card_number )
       card_type, rule = card_types.detect { | type, rule | rule.call( card_number ) }
 
-      return card_type || :uknown
+      return card_type || :unknown
     end
 
     def self.card( type, options = {} )
