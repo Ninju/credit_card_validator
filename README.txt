@@ -9,15 +9,15 @@ Validates credit card numbers using the Luhn algorithm
 == SYNOPSIS:
 
   class CreditCard
-    card "Visa", :length => [13, 16], :format => /^44/
+    card :visa, :length => [13, 16], :format => /^44/
   end
 
   card = CreditCard.create( 4413431987263 )
-  card.type #=> "Visa"
+  card.type #=> :visa
   card.valid? #=> true/false
 
   card = CreditCard.create( 1234523423 )
-  card.type #=> "Uknown"
+  card.type #=> :unknown
   card.valid? #=> false
 
 == REQUIREMENTS:
@@ -27,7 +27,8 @@ Validates credit card numbers using the Luhn algorithm
 
 == INSTALL:
 
-sudo gem install credit_card_validator
+#= not yet
+  sudo gem install credit_card_validator
 
 == LICENSE:
 
