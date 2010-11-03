@@ -7,8 +7,12 @@ module CreditCardValidator
       @card_number = card_number
     end
 
+    def uknown?
+      type == :uknown
+    end
+
     def valid?
-      return false if type == "Uknown"
+      return false if uknown?
 
       digits = card_number.digits
       evens = digits.even_indexes

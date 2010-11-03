@@ -10,8 +10,21 @@ describe CreditCard do
     @card_number ||= 418997223921
   end
 
+  it "should be uknown if the type is uknown" do
+    card = CreditCard.create( 34123124 )
+    card.stub( :type ).and_return( :uknown )
+    card.should be_uknown
+  end
+
+  it "should not be uknown if the type of the card is known" do
+    card = CreditCard.create( 34123124 )
+    card.stub( :type ).and_return( :some_known_type )
+    card.should_not be_uknown
+  end
+
   it "should not be valid if the type of the card is uknown" do
-    card = CreditCard.new( "Uknown", 4408041234567893 )
+    card = CreditCard.create( 4408041234567893 )
+    card.stub( :type ).and_return( :uknown )
     card.should_not be_valid
   end
 
