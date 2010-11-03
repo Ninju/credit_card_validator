@@ -34,7 +34,7 @@ module CreditCardValidator
     def self.type( card_number )
       card_type, rule = card_types.detect { | type, rule | rule.call( card_number ) }
 
-      return card_type || "Uknown"
+      return card_type || :uknown
     end
 
     def self.card( type, options = {} )
@@ -58,9 +58,9 @@ module CreditCardValidator
     card_option( :format ) { | format, card_number | card_number.to_s =~ format }
     card_option( :length ) { | lengths, card_number | lengths.to_a.include?( card_number.digits.size ) }
 
-    card "Visa", :format => /^4/, :length => [ 13, 16 ]
-    card "MasterCard", :format => /^5(1|5)/, :length => 16
-    card "Discover", :format => /^6011/, :length => 16
-    card "AMEX", :format => /^3(4|7)/, :length => 15
+    card :visa, :format => /^4/, :length => [ 13, 16 ]
+    card :mastercard, :format => /^5(1|5)/, :length => 16
+    card :discover, :format => /^6011/, :length => 16
+    card :amex, :format => /^3(4|7)/, :length => 15
   end
 end

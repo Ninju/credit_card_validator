@@ -63,16 +63,12 @@ describe CreditCard do
       @card_types ||= { "One" => Object.new }
     end
 
-    it "should return a string representation of the Card's type" do
-      CreditCard.type( card_number ).should be_kind_of( String )
-    end
-
     it "should be 'Uknown' when the card number does not match any type" do
       card_types.each do | type, rule |
         rule.stub( :call ).with( card_number ).and_return( false )
       end
 
-      CreditCard.type( card_number ).should == "Uknown"
+      CreditCard.type( card_number ).should == :uknown
     end
 
     it "should be the card type of the matching rule" do
